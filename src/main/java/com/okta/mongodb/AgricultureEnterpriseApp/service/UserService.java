@@ -9,7 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.dao.DataIntegrityViolationException;
 
-import java.util.ArrayList;
+//import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -19,22 +19,17 @@ public class UserService {
     private UserDao userDao;
 
     // Get all users
-    public ResponseEntity<List<User>> getUsers() {
-        try {
-            return new ResponseEntity<>(userDao.findAll(), HttpStatus.OK);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return new ResponseEntity<>(new ArrayList<>(), HttpStatus.BAD_REQUEST);
+    public List<User> getAllUsers() {
+        return userDao.findAll(); // This is a JpaRepository or similar
     }
-
+    
     // Add a new user
     public ResponseEntity<String> addUser(User user) {
         try {
             userDao.save(user);
             return new ResponseEntity<>("User added successfully", HttpStatus.CREATED);
         } catch (DataIntegrityViolationException e) {
-            // Handle unique constraint violation (e.g., username)
+            // Handling unique constraint violation (e.g., username)
             e.printStackTrace();
             return new ResponseEntity<>("User already exists", HttpStatus.CONFLICT);
         } catch (Exception e) {
@@ -85,4 +80,6 @@ public class UserService {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    
 }
