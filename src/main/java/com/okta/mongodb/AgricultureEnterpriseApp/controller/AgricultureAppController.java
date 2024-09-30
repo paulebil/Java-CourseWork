@@ -21,10 +21,15 @@ public class AgricultureAppController {
     @Autowired
     ProductService productService;
 
-    @SuppressWarnings("unchecked")
+    // @SuppressWarnings("unchecked")
+    // @GetMapping("allProducts")
+    // public ResponseEntity <List<Product>> getAllProducts(){
+    //     return (ResponseEntity<List<Product>>) productService.getAllProducts();
+    // }
     @GetMapping("allProducts")
-    public ResponseEntity <List<Product>> getAllProducts(){
-        return (ResponseEntity<List<Product>>) productService.getAllProducts();
+    public ResponseEntity<List<Product>> getAllProducts(){
+        List<Product> products = productService.getAllProducts(); // Assuming this returns a List<Product>
+        return ResponseEntity.ok(products); // Wrap the list in a ResponseEntity
     }
 
     @GetMapping("category/{category}")
