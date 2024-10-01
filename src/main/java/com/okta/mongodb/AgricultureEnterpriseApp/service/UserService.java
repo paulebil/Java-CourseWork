@@ -9,20 +9,32 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.dao.DataIntegrityViolationException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+
 //import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class UserService {
 
+    private static final Logger logger = LoggerFactory.getLogger(UserService.class);
+
     @Autowired
     private UserDao userDao;
 
     // Get all users
-    public List<User> getAllUsers() {
-        return userDao.findAll(); // This is a JpaRepository or similar
-    }
+    // public List<User> getAllUsers() {
+    //     return userDao.findAll(); // This is a JpaRepository or similar
+    // }
     
+    public List<User> getAllUsers() {
+        List<User> users = userDao.findAll();
+        logger.info("Retrieved users: {}", users); // Log the retrieved users
+        return users;
+    }
+
     // Add a new user
     public ResponseEntity<String> addUser(User user) {
         try {

@@ -1,75 +1,82 @@
 package com.okta.mongodb.AgricultureEnterpriseApp.controller;
 
-
 import com.okta.mongodb.AgricultureEnterpriseApp.model.User;
-import com.okta.mongodb.AgricultureEnterpriseApp.model.Product;
 import com.okta.mongodb.AgricultureEnterpriseApp.service.UserService;
-import com.okta.mongodb.AgricultureEnterpriseApp.service.ProductService;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.util.List;
 
-
-@RestController
+@Controller
 @RequestMapping("user")
 public class UserController {
 
     private final UserService userService;
-    private final ProductService productService;
 
     @Autowired
-    public UserController(UserService userService, ProductService productService) {
+    public UserController(UserService userService) {
         this.userService = userService;
-        this.productService = productService;
+    }
+
+    // Serve registration page for GET request
+    @GetMapping("register")
+    public String showRegisterPage() {
+        return "register"; // Return the register.jsp page
+      
     }
 
     // Register user
     @SuppressWarnings("null")
     @PostMapping("register")
-    public ResponseEntity<String> registerUser(@Validated @RequestBody User user) {
+    public String registerUser(@Validated @ModelAttribute User user, Model model) {
         if (userService.checkUserExists(user.getUsername()).getBody()) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("Username is taken. Please choose a different one.");
+            model.addAttribute("error", "Username is taken. Please choose a different one.");
+            return "register"; // Return to registration page with error
         }
         user.setRole("ROLE_NORMAL");
         userService.addUser(user);
-        return ResponseEntity.status(HttpStatus.CREATED).body("User registered successfully");
+        model.addAttribute("success", "User registered successfully");
+        return "login"; // Redirect to login page or success page
     }
 
     // User login
     @GetMapping("login")
-    public ResponseEntity<String> loginUser(@RequestParam String username, @RequestParam String password) {
+    public String loginUser(@RequestParam String username, @RequestParam String password, Model model) {
         User user = userService.checkLogin(username, password).getBody();
         if (user != null) {
-            return ResponseEntity.ok("Login successful");
+            model.addAttribute("message", "Login successful");
+            return "profile"; // Redirect to user profile page
         }
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
+        model.addAttribute("error", "Invalid credentials");
+        return "login"; // Return to login page with error
     }
 
-    // //Get user profile
-    // @GetMapping("profile")
-    // public ResponseEntity<User> getUserProfile() {
-    //     String username = SecurityContextHolder.getContext().getAuthentication().getName();
-    //     User user = userService.getUserByUsername(username).getBody();
-    //     return user != null ? ResponseEntity.ok(user) : ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-    // }
-
-    // Get all products
-    @GetMapping("products")
-    public ResponseEntity<List<Product>> getAllProducts() {
-        List<Product> products = productService.getAllProducts();
-        return products.isEmpty() ? ResponseEntity.noContent().build() : ResponseEntity.ok(products);
+    // Get user profile
+    @GetMapping("profile")
+    public String getUserProfile(Model model) {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user = userService.getUserByUsername(username).getBody();
+        if (user != null) {
+            model.addAttribute("user", user);
+            return "profile"; // Return profile view
+        }
+        return "error"; // Return error page if user not found
     }
-    
+
     // Get all users
     @GetMapping("all")
-    public ResponseEntity<List<User>> getAllUsers() {
+    public String getAllUsers(Model model) {
         List<User> users = userService.getAllUsers();
-        return users.isEmpty() ? ResponseEntity.noContent().build() : ResponseEntity.ok(users);
+        if (users.isEmpty()) {
+            model.addAttribute("message", "No users found");
+        } else {
+            model.addAttribute("users", users);
+        }
+        return "userList"; // Return user list view
     }
-
 }
