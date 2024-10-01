@@ -1,4 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
+
 <html>
 <head>
     <title>Login</title>
@@ -16,5 +18,7 @@
 <c:if test="${not empty message}">
     <div style="color: green;">${message}</div>
 </c:if>
+
+<a href="${pageContext.request.contextPath}/user/register">Register Here</a>
 </body>
 </html>
