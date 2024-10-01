@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib uri="http://jakarta.apache.org/taglibs/standard-impl-1.2" prefix="c" %>
-<%@ taglib uri="http://jakarta.apache.org/taglibs/standard-fn-1.2" prefix="fn" %>
+<%@ taglib uri="http://jakarta.apache.org/taglibs/jstl/core" prefix="c" %>
+<%@ taglib uri="http://jakarta.apache.org/taglibs/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>

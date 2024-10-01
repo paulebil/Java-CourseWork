@@ -6,18 +6,26 @@ import java.util.ArrayList;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.okta.mongodb.AgricultureEnterpriseApp.model.Product;
 import com.okta.mongodb.AgricultureEnterpriseApp.dao.ProductDao;
+import org.springframework.data.domain.Pageable;
+
 
 @Service
 public class ProductService {
     
     @Autowired
     ProductDao productDao;
+
+    public List<Product> getRandomProducts(String category, int numQ) {
+        Pageable pageable = PageRequest.of(0, numQ); // Page 0, size numQ
+        return productDao.findRandomProductsByCategory(category, pageable);
+    }
 
     // Retrieve all products
     public List<Product> getAllProducts() {
