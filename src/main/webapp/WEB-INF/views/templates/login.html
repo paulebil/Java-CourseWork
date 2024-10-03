@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agriculture E-Commerce - User Authentication</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #e9f5e9;
+        }
+        .auth-container {
+            max-width: 400px;
+            margin: auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-top: 100px;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .header img {
+            width: 100px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="auth-container">
+    <div class="header">
+        <img src="../../../../resources/static/banner.jpg" alt="Logo">
+        <h2>Agriculture E-Shop</h2>
+        <p>Login to your account</p>
+    </div>
+    <form onsubmit="return redirectToProducts();">
+        <div class="form-group">
+            <label for="email">Email address</label>
+            <input type="email" class="form-control" id="email" placeholder="Enter email" required>
+        </div>
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" class="form-control" id="password" placeholder="Password" required>
+        </div>
+        <button type="submit" class="btn btn-success btn-block">Login</button>
+        <div class="text-center mt-3">
+            <a href="#">Forgot password?</a>
+        </div>
+        <div class="text-center mt-2">
+            <p>Don't have an account? <a href="#">Sign up</a></p>
+        </div>
+    </form>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+    function redirectToProducts() {
+        // Here you can add authentication logic if needed.
+        window.location.href = 'products.html'; // Change 'products.html' to your actual products page URL
+        return false; // Prevent the default form submission
+    }
+</script>
+</body>
+</html>

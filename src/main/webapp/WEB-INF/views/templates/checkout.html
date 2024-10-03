@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - Agriculture E-Commerce</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #e9f5e9;
+        }
+        .footer {
+            background-color: #4CAF50;
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+<header class="bg-success text-white text-center py-3">
+    <h1>Agriculture E-Shop</h1>
+</header>
+
+<div class="container">
+    <h2 class="text-center my-4">Checkout</h2>
+    <form onsubmit="return placeOrder();">
+        <div class="form-group">
+            <label for="name">Full Name</label>
+            <input type="text" class="form-control" id="name" required>
+        </div>
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" class="form-control" id="email" required>
+        </div>
+        <div class="form-group">
+            <label for="address">Shipping Address</label>
+            <textarea class="form-control" id="address" rows="3" required></textarea>
+        </div>
+        <h4>Cart Summary</h4>
+        <ul id="checkout-cart" class="list-unstyled"></ul>
+        <p><strong>Total: $<span id="checkout-total">0.00</span></strong></p>
+        <button type="submit" class="btn btn-success btn-block">Place Order</button>
+    </form>
+</div>
+
+<footer class="footer">
+    <p>&copy; 2024 Agriculture E-Shop. All rights reserved.</p>
+    <p><a href="#" class="text-white">Privacy Policy</a> | <a href="#" class="text-white">Terms of Service</a></p>
+</footer>
+
+<script>
+    // Simulating cart data, replace with actual data from storage or state
+    const cartItems = [
+        { name: "Organic Seeds", price: 25.00 },
+        { name: "Natural Fertilizer", price: 15.00 }
+    ];
+    let total = cartItems.reduce((acc, item) => acc + item.price, 0);
+
+    // Display cart items in checkout
+    const checkoutCart = document.getElementById('checkout-cart');
+    cartItems.forEach(item => {
+        const li = document.createElement('li');
+        li.textContent = `${item.name} - $${item.price.toFixed(2)}`;
+        checkoutCart.appendChild(li);
+    });
+    document.getElementById('checkout-total').textContent = total.toFixed(2);
+
+    function placeOrder() {
+        // Here you can add order processing logic if needed
+        window.location.href = 'order-successful.html'; // Change to your actual order success page URL
+        return false; // Prevent the default form submission
+    }
+</script>
+
+</body>
+</html>
